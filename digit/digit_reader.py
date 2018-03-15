@@ -7,8 +7,8 @@ from sklearn import svm
 import numpy as np
 
 from keras.models import Sequential
-from keras.layers import Dense , Dropout , Lambda, Flatten
-from keras.optimizers import Adam ,RMSprop
+from keras.layers import Dense, Dropout, Lambda, Flatten
+from keras.optimizers import Adam, RMSprop
 
 def parse_data(file_name):
     with open(file_name, 'r') as f:
@@ -42,6 +42,9 @@ def support_vector_machine_train(training_data):
     return clf
 
 def main(argv):
+    if len(argv) != 2:
+        print("usage: python digit_reader.py train.csv test.csv")
+        sys.exit()
     training_data = argv[0]
     test_data = argv[1]
 
