@@ -4,7 +4,11 @@ import pandas as pd
 import matplotlib.pyplot as plt, matplotlib.image as mpimg
 from sklearn.model_selection import train_test_split
 from sklearn import svm
+import numpy as np
 
+from keras.models import Sequential
+from keras.layers import Dense , Dropout , Lambda, Flatten
+from keras.optimizers import Adam ,RMSprop
 
 def parse_data(file_name):
     with open(file_name, 'r') as f:
@@ -21,16 +25,19 @@ def parse_data(file_name):
 
 
 def main(argv):
-    variables, rows = parse_data(argv[0])
+    training_data = argv[0]
+    test_data = argv[1]
 
-    # svm
-    # from kernel https://www.kaggle.com/archaeocharlie/a-beginner-s-approach-to-classification
+    '''
+    svm
+    from kernel https://www.kaggle.com/archaeocharlie/a-beginner-s-approach-to-classification
+    '''
     labeled_images = pd.read_csv(argv[0])
-    images = labeled_images.iloc[0:5000,1:]
-    labels = labeled_images.iloc[0:5000,:1]
+    images = labeled_images.iloc[0:10000,1:]
+    labels = labeled_images.iloc[0:10000,:1]
     train_images, test_images,train_labels, test_labels = train_test_split(images, labels, train_size=0.8, random_state=0)
 
-
+    # convert all pixels to black and white
     test_images[test_images>0]=1
     train_images[train_images>0]=1
 
@@ -38,7 +45,16 @@ def main(argv):
     clf.fit(train_images, train_labels.values.ravel())
     print(clf.score(test_images,test_labels))
 
-
+    # test svm
+    test = pd.read_csv(test_data)
+    test[test>0]=1
+    results = clf.predict(test[0:])
+    print(results)
+    df = pd.DataFrame(results)
+    df.index += 1
+    df.index.name = 'ImageId'
+    df.columns=['Label']
+    df.to_csv('results.csv', header=True)
 
 
 if __name__ == "__main__":
