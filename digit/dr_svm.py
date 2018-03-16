@@ -6,9 +6,6 @@ from sklearn.model_selection import train_test_split
 from sklearn import svm
 import numpy as np
 
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Lambda, Flatten
-from keras.optimizers import Adam, RMSprop
 
 def parse_data(file_name):
     with open(file_name, 'r') as f:
@@ -47,8 +44,6 @@ def main(argv):
         sys.exit()
     training_data = argv[0]
     test_data = argv[1]
-
-
 
     # test svm
     clf = support_vector_machine_train(training_data)
