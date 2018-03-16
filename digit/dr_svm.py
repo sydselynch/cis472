@@ -55,7 +55,7 @@ def main(argv):
     df.index += 1
     df.index.name = 'ImageId'
     df.columns=['Label']
-    df.to_csv('results.csv', header=True)
+    df.to_csv('svm_results.csv', header=True)
 
 
 

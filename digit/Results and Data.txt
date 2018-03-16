@@ -1,0 +1,2 @@
+dr_svm accuracy: 0.95828 on leaderboard
+dr_neural_network accuracy: 0.77100
