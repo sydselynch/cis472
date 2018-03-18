@@ -34,7 +34,7 @@ def support_vector_machine_train(training_data):
 
     # can tune these parameters
     # see http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
-    clf = svm.SVC(C=7, kernel='rbf', gamma=0.009)
+    clf = svm.SVC(C=20, kernel='rbf', tol=1e-3, gamma=0.009)
     clf.fit(train_images, train_labels.values.ravel())
     print("Accuracy: ", clf.score(test_images,test_labels))
 
@@ -56,6 +56,7 @@ def main(argv):
     test = pd.read_csv(test_data)
     test[test>0]=1
     results = clf.predict(test[0:])
+    print(duration)
     print(results)
     df = pd.DataFrame(results)
     df.index += 1
