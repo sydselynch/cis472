@@ -30,9 +30,7 @@ def nc_train(training_data):
     test_images[test_images>0]=1
     train_images[train_images>0]=1
 
-    #Assumed you have, X (predictor) and Y (target) for training data set and x_test(predictor) of test_dataset
-    # Create KNeighbors classifier object model 
-    clf = NearestCentroid() # default value for n_neighbors is 5
+    clf = NearestCentroid(shrink_threshold=.75)
     # Train the model using the training sets and check score
     clf.fit(train_images, train_labels.values.ravel())
     print("Accuracy: ", clf.score(test_images,test_labels))
@@ -41,7 +39,7 @@ def nc_train(training_data):
 
 def main(argv):
     if len(argv) != 2:
-        print("usage: python digit_reader.py train.csv test.csv")
+        print("usage: python dr_nc.py train.csv test.csv")
         sys.exit()
     training_data = argv[0]
     test_data = argv[1]
@@ -56,7 +54,7 @@ def main(argv):
     df.index += 1
     df.index.name = 'ImageId'
     df.columns=['Label']
-    df.to_csv('nc_results.csv', header=True)
+    df.to_csv('nc(st=.75)_results.csv', header=True)
 
 
 
