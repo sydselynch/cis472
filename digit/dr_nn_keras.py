@@ -109,7 +109,7 @@ def train_nn(train_data):
                                             factor=0.5,
                                             min_lr=0.00001)
 
-    epochs = 1 # Turn epochs to 30 to get 0.9967 accuracy
+    epochs = 30 # Turn epochs to 30 to get 0.9967 accuracy
     batch_size = 86
 
     datagen = ImageDataGenerator(
@@ -145,17 +145,19 @@ def main(argv):
 
     # test NN
     test = pd.read_csv(test_data)
+    test = test / 255.0
+    test = test.values.reshape(-1,28,28,1)
     start = timer()
     trained_nn = train_nn(training_data)
     duration = timer() - start
     print("Training duration: ", duration)
 
-    results = trained_nn.predict(test[0:])
+    results = trained_nn.predict(test)
     df = pd.DataFrame(results)
     df.index += 1
     df.index.name = 'ImageId'
     df.columns=['Label']
-    df.to_csv('nn_results.csv', header=True)
+    df.to_csv('nn_keras_results.csv', header=True)
 
 
 
