@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt, matplotlib.image as mpimg
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors.nearest_centroid import NearestCentroid
 import numpy as np
-
+import time
 
 def parse_data(file_name):
     with open(file_name, 'r') as f:
@@ -30,9 +30,12 @@ def nc_train(training_data):
     test_images[test_images>0]=1
     train_images[train_images>0]=1
 
-    clf = NearestCentroid(shrink_threshold=.75)
+    clf = NearestCentroid(shrink_threshold=1)
     # Train the model using the training sets and check score
+    start = time.time()
     clf.fit(train_images, train_labels.values.ravel())
+    end = time.time()
+    print("Training time: ", end - start)    
     print("Accuracy: ", clf.score(test_images,test_labels))
 
     return clf
@@ -49,12 +52,16 @@ def main(argv):
     test = pd.read_csv(test_data)
     test[test>0]=1
     results = clf.predict(test[0:])
+    start = time.time()
+    results = clf.predict(test[0:])
+    end = time.time()
+    print("Prediction time: ", end - start)    
     print(results)
     df = pd.DataFrame(results)
     df.index += 1
     df.index.name = 'ImageId'
     df.columns=['Label']
-    df.to_csv('nc(st=.75)_results.csv', header=True)
+    df.to_csv('nc(cosine, 0.25)_results.csv', header=True)
 
 
 
