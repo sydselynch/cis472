@@ -34,7 +34,7 @@ def support_vector_machine_train(training_data):
 
     # can tune these parameters
     # see http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
-    clf = svm.SVC(C=20, kernel='rbf', tol=1e-3, gamma=0.009)
+    clf = svm.SVC(C=20, kernel='rbf', tol=1e-2, gamma=0.0095)
     clf.fit(train_images, train_labels.values.ravel())
     print("Accuracy: ", clf.score(test_images,test_labels))
 
